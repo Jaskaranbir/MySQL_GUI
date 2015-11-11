@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context-4.2.xsd">
+
+<context:annotation-config/>
+
+<bean id="displayLogin" class="com.jaskaranbir.sql.login.loginDialog" >
+	<property name="loginValidatorBean" value="loginValidate" />
+</bean>
+
+<bean id="loginValidator" class="com.jaskaranbir.sql.login.loginAuth">
+	<property name="postLoginBean" value="ui" />
+</bean>
+
+<bean id="ui" class="com.jaskaranbir.sql.app.UI" lazy-init="true" >
+	<property name = "treePopulatorBean" value="treePopulator"/>
+	<property name = "tablePopulatorBean" value="tablePopulator"/>
+</bean>
+
+<bean id="treePopulator" class="com.jaskaranbir.sql.app.TreePopulate" scope="prototype" lazy-init="true" >
+	<constructor-arg ref="getCon"/>
+	<constructor-arg ref="getTreeModel" />
+	<constructor-arg ref="getRoot" />
+</bean>
+
+<bean id="tablePopulator" class="com.jaskaranbir.sql.app.TablePopulate" scope="prototype" lazy-init="true">
+	<constructor-arg ref="getCon"/>
+	<constructor-arg ref="getTableModel" />
+	<constructor-arg ref="getCurDB" />
+</bean>
+
+<bean id="syncAdapter" class="com.jaskaranbir.sql.app.SyncAdapter" scope="prototype" lazy-init="true" >
+	<constructor-arg ref="getCon" />
+	<constructor-arg ref="getTable" />
+	<constructor-arg ref="getCurDBStr" />
+	<constructor-arg ref="getRefCol" />
+</bean>
+
+</beans>
